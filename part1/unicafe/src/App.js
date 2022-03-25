@@ -8,9 +8,18 @@ const App = () => {
 
   return (
     <div>
-      code here
+      <SectionHeader text='give feedback' />
+      <SectionHeader text='statistics' />
     </div>
   );
-}
+};
+
+const SectionHeader = ({ text }) => {
+  return (
+    <h1>
+      {text}
+    </h1>
+  );
+};
 
 export default App;
