@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 const App = () => {
-  // save clicks of each button to its own state
   const [ good, setGood ] = useState(0);
   const [ neutral, setNeutral ] = useState(0);
   const [ bad, setBad ] = useState(0);
@@ -10,16 +9,55 @@ const App = () => {
   const handleNeutralClick = () => setNeutral(neutral + 1);
   const handleBadClick = () => setBad(bad + 1);
 
+  const buttonsInfo = [
+    {
+      clickFunction: handleGoodClick,
+      text: 'Good',
+    },
+    {
+      clickFunction: handleNeutralClick,
+      text: 'Neutral',
+    },
+    {
+      clickFunction: handleBadClick,
+      text: 'Bad',
+    },
+  ];
+
+  const statsInfo = [
+    {
+      text: 'good',
+      state: good,
+    },
+    {
+      text: 'neutral',
+      state: neutral,
+    },
+    {
+      text: 'bad',
+      state: bad,
+    },
+  ];
+
   return (
     <div>
-      <SectionHeader text='give feedback' />
-      <Button onclick={handleGoodClick} text='Good' />
-      <Button onclick={handleNeutralClick} text='Neutral' />
-      <Button onclick={handleBadClick} text='Bad' />
-      <SectionHeader text='statistics' />
-      <StatLine text='good' data={good} />
-      <StatLine text='neutral' data={neutral} />
-      <StatLine text='bad' data={bad} />
+      <FeedbackSection headerText='give feedback' buttons={buttonsInfo} />
+      <StatsSection headerText='statistics' stats={statsInfo} />
+    </div>
+  );
+};
+
+const FeedbackSection = ({ headerText, buttons }) => {
+  return (
+    <div>
+      <SectionHeader text={headerText} />
+      {(() => {
+        return buttons.map(button => {
+          return (
+            <Button onclick={button.clickFunction} text={button.text} />
+          );
+        });
+      })()}
     </div>
   );
 };
@@ -45,6 +83,21 @@ const StatLine = ({ text, data }) => {
     <p>
       {text}  {data}
     </p>
+  );
+};
+
+const StatsSection = ({ headerText, stats }) => {
+  return (
+    <div>
+      <SectionHeader text={headerText} />
+      {(() => {
+        return stats.map(stat => {
+          return (
+            <StatLine text={stat.text} data={stat.state} />
+          );
+        });
+      })()}
+    </div>
   );
 };
 
