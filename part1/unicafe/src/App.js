@@ -6,8 +6,14 @@ const App = () => {
   const [ bad, setBad ] = useState(0);
 
   const handleGoodClick = () => setGood(good + 1);
+
   const handleNeutralClick = () => setNeutral(neutral + 1);
+
   const handleBadClick = () => setBad(bad + 1);
+
+  const total = () => good + bad + neutral;
+  const average = () => ((good - bad) / total()) || 0;
+  const percentPositive = () => ((good / total()) > 0) ? `${(good / total()) * 100} %`: '0 %';
 
   const buttonsInfo = [
     {
@@ -36,6 +42,18 @@ const App = () => {
     {
       text: 'bad',
       state: bad,
+    },
+    {
+      text: 'all',
+      state: total(),
+    },
+    {
+      text: 'average',
+      state: average(),
+    },
+    {
+      text: 'positive',
+      state: percentPositive(),
     },
   ];
 
