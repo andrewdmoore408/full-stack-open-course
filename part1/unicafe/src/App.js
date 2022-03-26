@@ -98,9 +98,10 @@ const SectionHeader = ({ text }) => {
 
 const StatLine = ({ text, data }) => {
   return (
-    <p>
-      {text}  {data}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>{data}</td>
+    </tr>
   );
 };
 
@@ -111,13 +112,17 @@ const StatsSection = ({ headerText, stats }) => {
     return (
       <div>
         <SectionHeader text={headerText} />
-        {(() => {
-          return stats.map(stat => {
-            return (
-              <StatLine text={stat.text} data={stat.state} />
-            );
-          });
-        })()}
+        <table>
+          <tbody>
+            {(() => {
+              return stats.map(stat => {
+                return (
+                  <StatLine text={stat.text} data={stat.state} />
+                );
+              });
+            })()}
+          </tbody>
+        </table>
       </div>
     );
   } else {
@@ -125,7 +130,7 @@ const StatsSection = ({ headerText, stats }) => {
       <p>
         No feedback given
       </p>
-    )
+    );
   }
 };
 
