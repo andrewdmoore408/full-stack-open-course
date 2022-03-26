@@ -105,18 +105,28 @@ const StatLine = ({ text, data }) => {
 };
 
 const StatsSection = ({ headerText, stats }) => {
-  return (
-    <div>
-      <SectionHeader text={headerText} />
-      {(() => {
-        return stats.map(stat => {
-          return (
-            <StatLine text={stat.text} data={stat.state} />
-          );
-        });
-      })()}
-    </div>
-  );
+  const total = stats.find(stat => stat.text === 'all').state;
+
+  if (total > 0) {
+    return (
+      <div>
+        <SectionHeader text={headerText} />
+        {(() => {
+          return stats.map(stat => {
+            return (
+              <StatLine text={stat.text} data={stat.state} />
+            );
+          });
+        })()}
+      </div>
+    );
+  } else {
+    return (
+      <p>
+        No feedback given
+      </p>
+    )
+  }
 };
 
 export default App;
