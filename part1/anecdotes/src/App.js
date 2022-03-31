@@ -25,7 +25,15 @@ const App = () => {
     setVotes(newVotes);
   };
 
-  const handleNextAnecdoteClick = () => setSelectedIndex(Math.floor(Math.random() * anecdotes.length));
+  const handleNextAnecdoteClick = () => {
+    let newIndex = selectedIndex;
+
+    while (newIndex === selectedIndex) {
+      newIndex = Math.floor(Math.random() * anecdotes.length);
+    }
+
+    setSelectedIndex(newIndex);
+  }
 
 
   return (
