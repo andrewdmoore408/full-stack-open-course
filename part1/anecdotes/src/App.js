@@ -12,10 +12,15 @@ const App = () => {
   ];
 
   const [ selectedIndex, setSelectedIndex ] = useState(0);
+  const [ highestVoteIndex, setHighestVoteIndex ] = useState(0);
   const [ votes, setVotes ] = useState(new Array(anecdotes.length).fill(0));
 
   const getCurrentVotes = () => {
     return votes[selectedIndex];
+  }
+
+  const getHighestVotes = () => {
+    return votes[highestVoteIndex];
   }
 
   const handleVoteClick = () => {
@@ -23,6 +28,8 @@ const App = () => {
 
     newVotes[selectedIndex] += 1;
     setVotes(newVotes);
+
+    updateHighestVoteIndex(newVotes);
   };
 
   const handleNextAnecdoteClick = () => {
@@ -35,6 +42,10 @@ const App = () => {
     setSelectedIndex(newIndex);
   }
 
+  const updateHighestVoteIndex = (votes) => {
+    const highestVote = [...votes].sort((a, b) => b - a)[0];
+    setHighestVoteIndex(votes.findIndex(vote => vote === highestVote));
+  };
 
   return (
     <div>
@@ -45,7 +56,12 @@ const App = () => {
       />
       <Button onClick={handleVoteClick} text='Vote' />
       <Button onClick={handleNextAnecdoteClick} text='Next anecdote' />
+
       <SectionHeader text="Highest-voted anecdote" />
+      <AnecdoteAndVoteCount
+        anecdote={anecdotes[highestVoteIndex]}
+        voteText={`has ${getHighestVotes()} votes`}
+      />
     </div>
   );
 };
