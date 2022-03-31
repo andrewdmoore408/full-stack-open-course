@@ -30,11 +30,21 @@ const App = () => {
 
   return (
     <div>
+      <SectionHeader text="Anecdote of the day" />
       <TextLine text={anecdotes[selectedIndex]} />
       <TextLine text={`has ${getCurrentVotes()} votes`} />
       <Button onClick={handleVoteClick} text='Vote' />
       <Button onClick={handleNextAnecdoteClick} text='Next anecdote' />
+      <SectionHeader text="Highest-voted anecdote" />
     </div>
+  );
+};
+
+const SectionHeader = ({ text }) => {
+  return (
+    <h2>
+      {text}
+    </h2>
   );
 };
 
