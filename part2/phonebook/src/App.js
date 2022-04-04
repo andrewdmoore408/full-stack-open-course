@@ -10,7 +10,12 @@ const App = () => {
   const handleAddContact = (event) => {
     event.preventDefault();
 
-    setPersons(persons.concat({name: newName}));
+    // alert user and avoid adding duplicate contact
+    if (persons.find(person => person.name === newName)) {
+      alert(`${newName} is already in phonebook`);
+    } else {
+      setPersons(persons.concat({name: newName}));
+    }
   };
 
   const handleNameChange = (event) => {
