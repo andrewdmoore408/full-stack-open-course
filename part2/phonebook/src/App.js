@@ -7,6 +7,12 @@ const App = () => {
   ]);
   const [ newName, setNewName ] = useState('name to add');
   const [ newNumber, setNewNumber ] = useState('phone number');
+  const [ filterBy, setFilterBy ] = useState('');
+  const [ showAllContacts, setShowAllContacts ] = useState(true);
+
+  const contactsToShow = showAllContacts
+    ? persons
+    : persons.filter(person => person.name.toLowerCase().includes(filterBy.toLowerCase()));
 
   const handleAddContact = (event) => {
     event.preventDefault();
@@ -21,6 +27,16 @@ const App = () => {
     }
   };
 
+  const handleFilterChange = (event) => {
+    setFilterBy(event.target.value);
+
+    if (filterBy === '') {
+      setShowAllContacts(true);
+    } else {
+      setShowAllContacts(false);
+    }
+  };
+
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -32,6 +48,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <span>filter contacts by:</span><input value={filterBy} onChange={handleFilterChange} />
+      <h3>Add new contact</h3>
       <form onSubmit={handleAddContact}>
         <div>
           name:
@@ -51,9 +69,9 @@ const App = () => {
           <button type="submit">add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
+      <h3>Contacts</h3>
       <div>
-        {persons.map(person => <Contact key={person.name} name={person.name} number={person.number}/>)}
+        {contactsToShow.map(person => <Contact key={person.name} name={person.name} number={person.number}/>)}
       </div>
     </div>
   );
