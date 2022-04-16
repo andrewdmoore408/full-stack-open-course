@@ -48,7 +48,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <span>filter contacts by:</span><input value={filterBy} onChange={handleFilterChange} />
+      <span>filter contacts by:</span>
+      <input
+        value={filterBy}
+        onChange={handleFilterChange}
+      />
       <h3>Add new contact</h3>
       <form onSubmit={handleAddContact}>
         <div>
