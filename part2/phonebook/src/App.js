@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Contact from './components/contact';
+import Filter from './components/filter';
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -48,10 +49,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <span>filter contacts by:</span>
-      <input
-        value={filterBy}
-        onChange={handleFilterChange}
+
+      <Filter
+        filterBy={filterBy}
+        handleFilterChange={handleFilterChange}
       />
       <h3>Add new contact</h3>
       <form onSubmit={handleAddContact}>
