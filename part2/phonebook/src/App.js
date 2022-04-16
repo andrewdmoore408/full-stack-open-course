@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Contact from './components/contact';
 import Filter from './components/filter';
 import PersonForm from './components/personform';
+import Persons from './components/persons';
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -57,6 +57,7 @@ const App = () => {
       />
 
       <h3>Add new contact</h3>
+
       <PersonForm
         handleAddContact={handleAddContact}
         newName={newName}
@@ -66,9 +67,10 @@ const App = () => {
       />
 
       <h3>Contacts</h3>
-      <div>
-        {contactsToShow.map(person => <Contact key={person.name} name={person.name} number={person.number}/>)}
-      </div>
+
+      <Persons
+        contactsToShow={contactsToShow}
+      />
     </div>
   );
 }
