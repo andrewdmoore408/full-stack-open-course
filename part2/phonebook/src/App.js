@@ -1,16 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import Filter from './components/filter';
 import PersonForm from './components/personform';
 import Persons from './components/persons';
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', number: '408-512-0100' }
-  ]);
+  const [ persons, setPersons ] = useState([]);
   const [ newName, setNewName ] = useState('name to add');
   const [ newNumber, setNewNumber ] = useState('phone number');
   const [ filterBy, setFilterBy ] = useState('');
   const [ showAllContacts, setShowAllContacts ] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data);
+      });
+  }, []);
 
   const contactsToShow = showAllContacts
     ? persons
