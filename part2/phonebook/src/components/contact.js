@@ -1,8 +1,16 @@
 import React from 'react';
 
-const Contact = ({ name, number }) => (
+const Contact = ({ id, name, number, handleDeleteContact }) => (
   <p>
     {name} {number}
+    <button
+      onClick={handleDeleteContact}
+      id={id}
+      key={id}
+      type="button"
+    >
+      Delete
+    </button>
   </p>
 );
 

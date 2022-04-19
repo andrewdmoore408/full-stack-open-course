@@ -1,9 +1,19 @@
 import Contact from './contact';
 
-const Persons = ({ contactsToShow }) => {
+const Persons = ({ contactsToShow, handleDeleteContact }) => {
   return (
     <div>
-      {contactsToShow.map(person => <Contact key={person.name} name={person.name} number={person.number} />)}
+      {contactsToShow.map(person => {
+        return (
+          <Contact
+            id={person.id}
+            key={person.id}
+            name={person.name}
+            number={person.number}
+            handleDeleteContact={handleDeleteContact}
+          />
+        )
+      })}
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import personService from './services/personService';
 
 import Filter from './components/filter';
@@ -34,6 +33,18 @@ const App = () => {
       setNewName('name to add');
       setNewNumber('phone number');
     }
+  };
+
+  const handleDeleteContact = (event) => {
+    const idToDelete = Number(event.target.getAttribute('id'));
+
+    personService.deleteContact(idToDelete)
+      .then(_ => {
+        const newPersons = persons.slice();
+        newPersons.splice(newPersons.findIndex(person => person.id === idToDelete), 1);
+
+        setPersons(newPersons);
+      });
   };
 
   const handleFilterChange = (event) => {
@@ -77,6 +88,7 @@ const App = () => {
 
       <Persons
         contactsToShow={contactsToShow}
+        handleDeleteContact={handleDeleteContact}
       />
     </div>
   );

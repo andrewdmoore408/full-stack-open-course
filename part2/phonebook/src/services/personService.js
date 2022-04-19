@@ -16,7 +16,14 @@ const addContact = (newContact) => {
   return unpackData(request);
 };
 
+const deleteContact = (id) => {
+  const request = axios.delete(`${url}/${id}`);
+
+  return unpackData(request);
+};
+
 export default {
   addContact,
   getAll,
+  deleteContact,
 };
