@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import personService from './services/personService';
 
 import Filter from './components/filter';
 import PersonForm from './components/personform';
@@ -13,11 +14,7 @@ const App = () => {
   const [ showAllContacts, setShowAllContacts ] = useState(true);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data);
-      });
+    personService.getAll().then(response => setPersons(response));
   }, []);
 
   const contactsToShow = showAllContacts
@@ -31,7 +28,9 @@ const App = () => {
     if (persons.find(person => person.name === newName)) {
       alert(`${newName} is already in phonebook`);
     } else {
-      setPersons(persons.concat({name: newName, number: newNumber}));
+      personService.addContact({name: newName, number: newNumber})
+        .then(personAdded => setPersons(persons.concat(personAdded)));
+
       setNewName('name to add');
       setNewNumber('phone number');
     }
