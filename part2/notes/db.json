@@ -10,7 +10,7 @@
       "id": 2,
       "content": "Browser can execute only JavaScript",
       "date": "2022-1-17T18:39:34.091Z",
-      "important": false
+      "important": true
     },
     {
       "id": 3,
@@ -35,6 +35,18 @@
       "date": "2022-04-19T00:13:41.632Z",
       "important": true,
       "id": 6
+    },
+    {
+      "content": "Have a good day!",
+      "date": "2022-04-19T00:25:33.477Z",
+      "important": true,
+      "id": 7
+    },
+    {
+      "content": "Testing new ID",
+      "date": "2022-04-19T00:28:55.660Z",
+      "important": true,
+      "id": 8
     }
   ]
 }

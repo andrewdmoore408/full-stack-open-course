@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+
+import noteService from './services/notes';
 import Note from './components/Note';
 
 const App = () => {
@@ -8,12 +10,10 @@ const App = () => {
   const [ showAll, setShowAll ] = useState(true);
 
   const hook = () => {
-    console.log('effect');
-
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-        setNotes(response.data);
+    noteService
+      .getAll()
+      .then(initialNotes => {
+        setNotes(initialNotes);
       });
   };
 
@@ -28,10 +28,10 @@ const App = () => {
       important: Math.random() < 0.5,
     };
 
-    axios
-      .post('http://localhost:3001/notes', newNoteObject)
-      .then(response => {
-        setNotes(notes.concat(newNoteObject));
+    noteService
+      .create(newNoteObject)
+      .then(newNote => {
+        setNotes(notes.concat(newNote));
         setNewNote('');
       });
   };
@@ -43,15 +43,13 @@ const App = () => {
   const notesToShow = showAll ? notes : notes.filter(note => note.important);
 
   const toggleImportanceOf = (id) => {
-    console.log('Importance of ', id, ' needs to be toggled');
-    const url = `http://localhost:3001/notes/${id}`;
     const noteToUpdate = notes.find(note => note.id === id);
-    const updatedNote = { ...noteToUpdate, important: !noteToUpdate.important };
+    const newNoteData = { ...noteToUpdate, important: !noteToUpdate.important };
 
-    axios
-      .put(url, updatedNote)
-      .then(response => {
-        setNotes(notes.map(note => note.id === id ? response.data : note));
+    noteService
+      .update(id, newNoteData)
+      .then(updatedNote => {
+        setNotes(notes.map(note => note.id === id ? updatedNote : note));
       });
   };
 
