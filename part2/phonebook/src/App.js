@@ -37,14 +37,17 @@ const App = () => {
 
   const handleDeleteContact = (event) => {
     const idToDelete = Number(event.target.getAttribute('id'));
+    const nameToDelete = persons.find(person => person.id === idToDelete).name;
 
-    personService.deleteContact(idToDelete)
-      .then(_ => {
-        const newPersons = persons.slice();
-        newPersons.splice(newPersons.findIndex(person => person.id === idToDelete), 1);
+    if (window.confirm(`Delete ${nameToDelete}?`)) {
+      personService.deleteContact(idToDelete)
+        .then(_ => {
+          const newPersons = persons.slice();
+          newPersons.splice(newPersons.findIndex(person => person.id === idToDelete), 1);
 
-        setPersons(newPersons);
-      });
+          setPersons(newPersons);
+        });
+    }
   };
 
   const handleFilterChange = (event) => {
