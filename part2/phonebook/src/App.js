@@ -23,9 +23,21 @@ const App = () => {
   const handleAddContact = (event) => {
     event.preventDefault();
 
-    // alert user and avoid adding duplicate contact
-    if (persons.find(person => person.name === newName)) {
-      alert(`${newName} is already in phonebook`);
+    // allow user to update number for contact if they confirm
+    const alreadyPresent = persons.find(person => person.name === newName);
+
+    if (alreadyPresent && alreadyPresent.number !== newNumber) {
+      if (window.confirm(`${alreadyPresent.name} is already in directory. Update with new number: ${newNumber}?`)) {
+        const updatedContact = {...alreadyPresent, number: newNumber};
+
+        personService.updateContact(alreadyPresent.id, updatedContact)
+          .then(updatedResponse => {
+            setPersons(persons.map(person => person === alreadyPresent ? updatedContact : person));
+
+            setNewName('name to add');
+            setNewNumber('phone number');
+          });
+      }
     } else {
       personService.addContact({name: newName, number: newNumber})
         .then(personAdded => setPersons(persons.concat(personAdded)));

@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Fozzie Bear",
-      "number": "408-555-4242",
-      "id": 6
-    },
-    {
       "name": "Ada Lovelace",
       "number": "39-44-5323523",
       "id": 11
@@ -14,6 +9,11 @@
       "name": "Kermit the Frog",
       "number": "800-724-6269",
       "id": 12
+    },
+    {
+      "name": "Fozzie",
+      "number": "408-555-4242",
+      "id": 14
     }
   ]
 }

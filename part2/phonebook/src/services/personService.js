@@ -22,8 +22,15 @@ const deleteContact = (id) => {
   return unpackData(request);
 };
 
+const updateContact = (id, updatedContact) => {
+  const request = axios.put(`${url}/${id}`, updatedContact);
+
+  return unpackData(request);
+};
+
 export default {
   addContact,
   getAll,
   deleteContact,
+  updateContact,
 };
