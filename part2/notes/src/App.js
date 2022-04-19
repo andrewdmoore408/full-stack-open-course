@@ -50,6 +50,11 @@ const App = () => {
       .update(id, newNoteData)
       .then(updatedNote => {
         setNotes(notes.map(note => note.id === id ? updatedNote : note));
+      })
+      .catch(error => {
+        alert(`The note ${noteToUpdate.content} was removed from the server.`);
+
+        setNotes(notes.filter(note => note.id !== id));
       });
   };
 
