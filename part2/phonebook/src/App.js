@@ -4,6 +4,7 @@ import personService from './services/personService';
 import Filter from './components/filter';
 import PersonForm from './components/personform';
 import Persons from './components/persons';
+import Notification from './components/notification';
 
 const App = () => {
   const [ persons, setPersons ] = useState([]);
@@ -11,6 +12,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('phone number');
   const [ filterBy, setFilterBy ] = useState('');
   const [ showAllContacts, setShowAllContacts ] = useState(true);
+  const [ notificationInfo, setNotificationInfo ] = useState(null);
 
   useEffect(() => {
     personService.getAll().then(response => setPersons(response));
@@ -34,16 +36,24 @@ const App = () => {
           .then(updatedResponse => {
             setPersons(persons.map(person => person === alreadyPresent ? updatedContact : person));
 
+            setNotificationInfo({message: `${updatedContact.name} contact has been updated.`, isError: false});
+            setTimeout(() => setNotificationInfo(null), 4000);
+
             setNewName('name to add');
             setNewNumber('phone number');
           });
       }
     } else {
       personService.addContact({name: newName, number: newNumber})
-        .then(personAdded => setPersons(persons.concat(personAdded)));
+        .then(personAdded => {
+          setPersons(persons.concat(personAdded));
 
-      setNewName('name to add');
-      setNewNumber('phone number');
+          setNotificationInfo({message: `${personAdded.name} contact has been added.`, isError: false});
+          setTimeout(() => setNotificationInfo(null), 4000);
+
+          setNewName('name to add');
+          setNewNumber('phone number');
+        });
     }
   };
 
@@ -58,6 +68,9 @@ const App = () => {
           newPersons.splice(newPersons.findIndex(person => person.id === idToDelete), 1);
 
           setPersons(newPersons);
+
+          setNotificationInfo({message: `${nameToDelete} has been removed.`, isError: false});
+          setTimeout(() => setNotificationInfo(null), 4000);
         });
     }
   };
@@ -83,6 +96,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification
+        notificationInfo={notificationInfo}
+      />
 
       <Filter
         filterBy={filterBy}
