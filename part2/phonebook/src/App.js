@@ -41,6 +41,16 @@ const App = () => {
 
             setNewName('name to add');
             setNewNumber('phone number');
+          })
+          .catch(error => {
+            if (error.message.includes('404')) {
+              setNotificationInfo({message: `${alreadyPresent.name} has been removed from contacts`, isError: true});
+            }
+
+            setTimeout(() => setNotificationInfo(null), 4000);
+
+            setNewName('name to add');
+            setNewNumber('phone number');
           });
       }
     } else {
