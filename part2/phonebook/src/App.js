@@ -44,7 +44,9 @@ const App = () => {
           })
           .catch(error => {
             if (error.message.includes('404')) {
-              setNotificationInfo({message: `${alreadyPresent.name} has been removed from contacts`, isError: true});
+              setNotificationInfo({message: `${alreadyPresent.name} was not found in contacts`, isError: true});
+            } else if (error.messages.includes('400')) {
+              setNotificationInfo({message: error.response.data.error, isError: true});
             }
 
             setTimeout(() => setNotificationInfo(null), 4000);
@@ -58,17 +60,23 @@ const App = () => {
         .then(personAdded => {
           setPersons(persons.concat(personAdded));
 
-          setNotificationInfo({message: `${personAdded.name} contact has been added.`, isError: false});
+          setNotificationInfo({message: `${personAdded.name} has been added.`, isError: false});
           setTimeout(() => setNotificationInfo(null), 4000);
 
           setNewName('name to add');
           setNewNumber('phone number');
+        })
+        .catch(error => {
+          console.log(error.response.data.error);
+          setNotificationInfo({message: error.response.data.error, isError: true});
+
+          setTimeout(() => setNotificationInfo(null), 4000);
         });
     }
   };
 
   const handleDeleteContact = (event) => {
-    const idToDelete = Number(event.target.getAttribute('id'));
+    const idToDelete = event.target.getAttribute('id');
     const nameToDelete = persons.find(person => person.id === idToDelete).name;
 
     if (window.confirm(`Delete ${nameToDelete}?`)) {
@@ -80,6 +88,13 @@ const App = () => {
           setPersons(newPersons);
 
           setNotificationInfo({message: `${nameToDelete} has been removed.`, isError: false});
+          setTimeout(() => setNotificationInfo(null), 4000);
+        })
+        .catch(error => {
+          console.log(error.response.data.error);
+
+          setNotificationInfo({message: error.response.data.error, isError: true});
+
           setTimeout(() => setNotificationInfo(null), 4000);
         });
     }
