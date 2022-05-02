@@ -1,5 +1,5 @@
-const LoginForm = ({ username, onUsernameChange, password, onPasswordChange, handleLogin }) => (
-  <form onSubmit={handleLogin}>
+const LoginForm = ({ username, onUsernameChange, password, onPasswordChange, onSubmit }) => (
+  <form onSubmit={onSubmit}>
     <div>
       Username
       <input

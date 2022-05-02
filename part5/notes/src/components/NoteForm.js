@@ -1,8 +1,8 @@
-const NoteForm = ({ newNote, handleNoteChange, addNote }) => (
-  <form onSubmit={addNote}>
+const NoteForm = ({ value, onChange, onSubmit }) => (
+  <form onSubmit={onSubmit}>
     <input
-      value={newNote}
-      onChange={handleNoteChange}
+      value={value}
+      onChange={onChange}
     />
     <button type="submit">Save</button>
   </form>
