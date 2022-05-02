@@ -31,10 +31,13 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedInNoteAppUser');
 
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
+      const user = {
+        token: JSON.parse(loggedUserJSON),
+        name: JSON.parse(window.localStorage.getItem('name')),
+      };
+
       setUser(user);
-      console.log(`user: ${user}`);
-      noteService.setToken(user);
+      noteService.setToken(user.token);
     }
   }, []);
 
@@ -67,6 +70,9 @@ const App = () => {
       window.localStorage.setItem(
         'loggedInNoteAppUser', JSON.stringify(user.token)
         );
+      window.localStorage.setItem(
+        'name', JSON.stringify(user.name)
+      );
 
       setUser(user);
       setUsername('');
