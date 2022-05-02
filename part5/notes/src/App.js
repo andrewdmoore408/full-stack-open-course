@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import noteService from './services/notes';
+import loginService from './services/login';
 import Note from './components/Note';
 import Notification from './components/Notification';
 import Footer from './components/Footer';
@@ -12,6 +13,7 @@ const App = () => {
   const [ errorMessage, setErrorMessage ] = useState(null);
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
+  const [ user, setUser ] = useState(null);
 
   const hook = () => {
     noteService
@@ -40,9 +42,23 @@ const App = () => {
       });
   };
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    console.log('Logging in with ', username, password);
+
+    try {
+      const user = await loginService.login({
+        username, password
+      });
+
+      setUser(user);
+      setUsername('');
+      setPassword('');
+    } catch (error) {
+      setErrorMessage('Wrong credentials');
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    }
   };
 
   const handleNoteChange = (event) => {
@@ -79,21 +95,21 @@ const App = () => {
       <form onSubmit={handleLogin}>
         <div>
           Username
-            <input
-              type="text"
-              value={username}
-              name="username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
+          <input
+            type="text"
+            value={username}
+            name="username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
         </div>
         <div>
           Password
-            <input
-              type="password"
-              value={password}
-              name="password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
+          <input
+            type="password"
+            value={password}
+            name="password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
         </div>
         <button type="submit">Login</button>
       </form>
