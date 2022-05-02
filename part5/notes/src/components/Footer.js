@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <footer style={footerStyle}>
       <em>
-        Note app: Department of Computer Science, University of Helsinki 2002
+        Note app: Department of Computer Science, University of Helsinki 2022
       </em>
     </footer>
   );
