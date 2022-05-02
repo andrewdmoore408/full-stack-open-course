@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm';
 import Note from './components/Note';
 import NoteForm from './components/NoteForm';
 import Notification from './components/Notification';
+import Toggleable from './components/Toggleable';
 import Footer from './components/Footer';
 
 const App = () => {
@@ -85,6 +86,18 @@ const App = () => {
     }
   };
 
+  const handleLogout = event => {
+    window.localStorage.removeItem('loggedInNoteAppUser');
+    window.localStorage.removeItem('name');
+
+    noteService.setToken(null);
+    setUser(null);
+    setErrorMessage('You have been logged out.');
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 5000);
+  };
+
   const handleNoteChange = (event) => {
     setNewNote(event.target.value);
   };
@@ -117,20 +130,30 @@ const App = () => {
       />
 
       {user === null ?
-        <LoginForm
-          username={username}
-          onUsernameChange={({ target }) => setUsername(target.value) }
-          password={password}
-          onPasswordChange={({target}) => setPassword(target.value)}
-          handleLogin={handleLogin}
-        /> :
-        <div>
-          <p>{user.name} logged-in</p>
-          <NoteForm
-            newNote={newNote}
-            handleNoteChange={handleNoteChange}
-            addNote={addNote}
+        <Toggleable buttonLabel='login'>
+          <LoginForm
+            username={username}
+            password={password}
+            onUsernameChange={({ target }) => setUsername(target.value)}
+            onPasswordChange={({ target }) => setPassword(target.value)}
+            onSubmit={handleLogin}
           />
+        </Toggleable> :
+        <div>
+            <p>{user.name} logged-in</p>
+            <button
+              type="button"
+              onClick={handleLogout}
+            >
+              logout
+            </button>
+          <Toggleable buttonLabel="new note">
+            <NoteForm
+              value={newNote}
+              onChange={handleNoteChange}
+              onSubmit={addNote}
+            />
+          </Toggleable>
         </div>
       }
 
@@ -139,6 +162,7 @@ const App = () => {
           show {showAll ? 'important' : 'all'}
         </button>
       </div>
+
       <ul>
         {notesToShow.map(note =>
           <Note

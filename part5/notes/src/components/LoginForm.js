@@ -1,7 +1,7 @@
 const LoginForm = ({ username, onUsernameChange, password, onPasswordChange, onSubmit }) => (
   <form onSubmit={onSubmit}>
     <div>
-      Username
+      username
       <input
         type="text"
         value={username}
@@ -10,7 +10,7 @@ const LoginForm = ({ username, onUsernameChange, password, onPasswordChange, onS
       />
     </div>
     <div>
-      Password
+      password
       <input
         type="password"
         value={password}
@@ -18,7 +18,7 @@ const LoginForm = ({ username, onUsernameChange, password, onPasswordChange, onS
         onChange={onPasswordChange}
       />
     </div>
-    <button type="submit">Login</button>
+    <button type="submit">login</button>
   </form>
 );
 
