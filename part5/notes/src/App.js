@@ -17,7 +17,7 @@ const App = () => {
   const [ password, setPassword ] = useState('');
   const [ user, setUser ] = useState(null);
 
-  const hook = () => {
+  const loadNotesHook = () => {
     noteService
       .getAll()
       .then(initialNotes => {
@@ -25,7 +25,18 @@ const App = () => {
       });
   };
 
-  useEffect(hook, []);
+  useEffect(loadNotesHook, []);
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedInNoteAppUser');
+
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      console.log(`user: ${user}`);
+      noteService.setToken(user);
+    }
+  }, []);
 
   const addNote = (event) => {
     event.preventDefault();
@@ -53,6 +64,9 @@ const App = () => {
       });
 
       noteService.setToken(user.token);
+      window.localStorage.setItem(
+        'loggedInNoteAppUser', JSON.stringify(user.token)
+        );
 
       setUser(user);
       setUsername('');
