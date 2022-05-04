@@ -53,14 +53,14 @@ const App = () => {
 
   const handleLogin = async ({ username, password }) => {
     try {
-        const user = await loginService.login({
+      const user = await loginService.login({
         username, password,
       });
 
       noteService.setToken(user.token);
       window.localStorage.setItem(
         'loggedInNoteAppUser', JSON.stringify(user.token)
-        );
+      );
       window.localStorage.setItem(
         'name', JSON.stringify(user.name)
       );
@@ -74,7 +74,7 @@ const App = () => {
     }
   };
 
-  const handleLogout = event => {
+  const handleLogout = () => {
     window.localStorage.removeItem('loggedInNoteAppUser');
     window.localStorage.removeItem('name');
 
@@ -97,9 +97,10 @@ const App = () => {
       .then(updatedNote => {
         setNotes(notes.map(note => note.id === id ? updatedNote : note));
       })
-      .catch(error => {
+      // eslint-disable-next-line no-unused-vars
+      .catch(_ => {
         setErrorMessage(`Note '${noteToUpdate.content}' was already removed from server`);
-        setTimeout(() => { setErrorMessage(null) }, 5000);
+        setTimeout(() => { setErrorMessage(null); }, 5000);
 
         setNotes(notes.filter(note => note.id !== id));
       });
@@ -120,13 +121,13 @@ const App = () => {
           />
         </Toggleable> :
         <div>
-            <p>{user.name} logged-in</p>
-            <button
-              type="button"
-              onClick={handleLogout}
-            >
+          <p>{user.name} logged-in</p>
+          <button
+            type="button"
+            onClick={handleLogout}
+          >
               logout
-            </button>
+          </button>
           <Toggleable
             buttonLabel="new note"
             ref={noteFormRef}
@@ -157,6 +158,6 @@ const App = () => {
       <Footer />
     </div>
   );
-}
+};
 
 export default App;

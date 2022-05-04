@@ -9,6 +9,6 @@ const Note = ({ note, toggleImportance }) => {
       </button>
     </li>
   );
-}
+};
 
 export default Note;

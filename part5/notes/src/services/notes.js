@@ -9,10 +9,10 @@ const setToken = (newToken) => {
 };
 
 const getAll = () => {
-  const request = axios.get(baseUrl)
+  const request = axios.get(baseUrl);
 
   return request.then(response => response.data);
-}
+};
 
 const create = async (newObject) => {
   const config = {
@@ -21,14 +21,13 @@ const create = async (newObject) => {
 
   const response = await axios.post(baseUrl, newObject, config);
   return response.data;
-}
+};
 
 const update = (id, updatedObject) => {
   const request = axios.put(`${baseUrl}/${id}`, updatedObject);
   return request.then(response => response.data);
-}
+};
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAll,
   create,
