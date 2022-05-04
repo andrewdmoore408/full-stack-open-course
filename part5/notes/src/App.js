@@ -13,17 +13,7 @@ const App = () => {
   const [ notes, setNotes ] = useState([]);
   const [ showAll, setShowAll ] = useState(true);
   const [ errorMessage, setErrorMessage ] = useState(null);
-  const [ username, setUsername ] = useState('');
-  const [ password, setPassword ] = useState('');
   const [ user, setUser ] = useState(null);
-
-  const addNote = (noteObject) => {
-    noteService
-      .create(noteObject)
-      .then(returnedNote => {
-        setNotes(notes.concat(returnedNote))
-      });
-  };
 
   const loadNotesHook = () => {
     noteService
@@ -49,12 +39,18 @@ const App = () => {
     }
   }, []);
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const addNote = (noteObject) => {
+    noteService
+      .create(noteObject)
+      .then(returnedNote => {
+        setNotes(notes.concat(returnedNote));
+      });
+  };
 
+  const handleLogin = async ({ username, password }) => {
     try {
-      const user = await loginService.login({
-        username, password
+        const user = await loginService.login({
+        username, password,
       });
 
       noteService.setToken(user.token);
@@ -66,8 +62,6 @@ const App = () => {
       );
 
       setUser(user);
-      setUsername('');
-      setPassword('');
     } catch (error) {
       setErrorMessage('Wrong credentials');
       setTimeout(() => {
@@ -118,11 +112,7 @@ const App = () => {
       {user === null ?
         <Toggleable buttonLabel='login'>
           <LoginForm
-            username={username}
-            password={password}
-            onUsernameChange={({ target }) => setUsername(target.value)}
-            onPasswordChange={({ target }) => setPassword(target.value)}
-            onSubmit={handleLogin}
+            handleLogin={handleLogin}
           />
         </Toggleable> :
         <div>
