@@ -11,12 +11,19 @@ import Footer from './components/Footer';
 
 const App = () => {
   const [ notes, setNotes ] = useState([]);
-  const [ newNote, setNewNote ] = useState('A new note...');
   const [ showAll, setShowAll ] = useState(true);
   const [ errorMessage, setErrorMessage ] = useState(null);
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ user, setUser ] = useState(null);
+
+  const addNote = (noteObject) => {
+    noteService
+      .create(noteObject)
+      .then(returnedNote => {
+        setNotes(notes.concat(returnedNote))
+      });
+  };
 
   const loadNotesHook = () => {
     noteService
@@ -41,23 +48,6 @@ const App = () => {
       noteService.setToken(user.token);
     }
   }, []);
-
-  const addNote = (event) => {
-    event.preventDefault();
-
-    const newNoteObject = {
-      content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() < 0.5,
-    };
-
-    noteService
-      .create(newNoteObject)
-      .then(newNote => {
-        setNotes(notes.concat(newNote));
-        setNewNote('');
-      });
-  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -96,10 +86,6 @@ const App = () => {
     setTimeout(() => {
       setErrorMessage(null);
     }, 5000);
-  };
-
-  const handleNoteChange = (event) => {
-    setNewNote(event.target.value);
   };
 
   const notesToShow = showAll ? notes : notes.filter(note => note.important);
@@ -149,9 +135,7 @@ const App = () => {
             </button>
           <Toggleable buttonLabel="new note">
             <NoteForm
-              value={newNote}
-              onChange={handleNoteChange}
-              onSubmit={addNote}
+              createNote={addNote}
             />
           </Toggleable>
         </div>
