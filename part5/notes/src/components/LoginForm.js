@@ -8,8 +8,6 @@ const LoginForm = ({ handleLogin }) => {
   const startLogin = async (event) => {
     event.preventDefault();
 
-    console.log('username:', username);
-    console.log('password:', password);
     await handleLogin({ username, password });
 
     setUsername('');
@@ -22,6 +20,7 @@ const LoginForm = ({ handleLogin }) => {
         username
         <input
           type="text"
+          id="username"
           value={username}
           name="username"
           onChange={({ target }) => setUsername(target.value)}
@@ -31,12 +30,13 @@ const LoginForm = ({ handleLogin }) => {
         password
         <input
           type="password"
+          id="password"
           value={password}
           name="password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button type="submit" id="loginButton">login</button>
     </form>
   );
 };
